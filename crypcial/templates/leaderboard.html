@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if not current_user.is_authenticated %}
+<p class="text-danger text-center">Login to compete with others!</p>
+{% endif %}
+        <article class="media content-section">
+        <table id="allcoins" class="tablesorter table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>username</th>
+                    <th>Wallet Money</th>
+                    <!--<th>Price</th>-->
+                    <!--<th>%Change</th>-->
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ url_for('account', username=user.username) }}" style="display:block;">{{ user.username }}</a></td>
+                        <td>{{ user.wallet_money | usd }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </article>
+{% endblock content %}

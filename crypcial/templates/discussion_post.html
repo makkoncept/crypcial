@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block content %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ discussion.author.image_file }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('account', username=discussion.author.username) }}">{{ discussion.author.username }}</a>
+            </div>
+            <h2 class="article-title">{{ discussion.title }}</h2>
+            <p class="article-content">{{ discussion.content }}</p>
+          </div>
+        </article>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <div class="form-group">
+                {{ form.content.label(class="form-control-label") }}
+                {% if form.content.errors %}
+                    {{ form.content(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.content.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.content(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+    <h4 class="text-center">Comments</h4>
+    {% for comment in comments %}
+    <div class="comment-section">
+        <hr>
+        <h5><a href="{{url_for('account', username=comment.author.username)}}"> {{ comment.author.username }} </a></h5>
+        <p>- {{ comment.content}}</p>
+        <small class="text-right text-success">upvotes : {{comment.id | no_of_upvotes_comments}}</small>
+        {% if current_user.is_authenticated %}
+            <form method="post" action="{{url_for('upvote_comment', discussion_id=discussion.id, discussion_comment_id=comment.id,
+            user_id=current_user.id)}}">
+                <input class="btn btn-outline-primary btn-sm" type="submit" value="Upvote">
+            </form>
+        {% endif %}
+        <hr>
+    </div>
+    {% endfor %}
+{% endblock content %}

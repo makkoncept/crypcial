@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <!--<legend class="border-bottom mb-4">Log In</legend>-->
+                <div class="form-group">
+                    {{ form.wallet_money.label(class="form-control-label") }}
+                    {% if form.wallet_money.errors %}
+                        {{ form.wallet_money(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.wallet_money.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.wallet_money(class="form-control form-control-lg", readonly=True, value=user.wallet_money | usd) }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.cryptocurrency.label(class="form-control-label") }}
+                    {% if form.cryptocurrency.errors %}
+                        {{ form.cryptocurrency(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.cryptocurrency.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.cryptocurrency(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.amount_to_invest.label(class="form-control-label") }}
+                    {% if form.amount_to_invest.errors %}
+                        {{ form.amount_to_invest(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.amount_to_invest.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.amount_to_invest(class="form-control form-control-lg", min=0, max=user.wallet_money, type='number') }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

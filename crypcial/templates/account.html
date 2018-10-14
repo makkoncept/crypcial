@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.image_file }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+          <p class="text-dark">{{user.about}}</p>
+           <h5><strong class="text-success">Wallet Balance</strong> : {{user.wallet_money | usd}}</h5>
+            {% if current_user.username == username %}
+            <div class="mt-4">
+                <a href="{{url_for('update_account')}}">Update</a>
+                <a class="ml-3" href="{{url_for('redeem')}}">Redeem</a>
+                <a class="ml-3" href="{{url_for('invest')}}">Invest</a>
+            </div>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}

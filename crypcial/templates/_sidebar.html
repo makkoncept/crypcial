@@ -1,0 +1,36 @@
+<div class="col-md-4">
+      <div class="content-section">
+        <h3><a class="text-center" href="{{url_for('account', username=current_user.username)}}">{{ current_user.username}}</a> </h3>
+          <p class='text-secondary'>Your Current virtual wallet balance.</p>
+          <ul class="list-group list-group-flush mt-4">
+              <li class="list-group-item text-dark">Wallet: {{ current_user.wallet_money | usd}}</li>
+              <li class="list-group-item text-dark">Bitcoins: {{current_user.btc | coins}}</li>
+              <li class="list-group-item text-dark">Ethereum: {{current_user.eth | coins}}</li>
+              <li class="list-group-item text-dark">EOS: {{current_user.eos | coins}}</li>
+          </ul>
+          <p class="text-secondary mt-4">Invest in cryptocurrencies :: <a href="{{ url_for('invest') }}">Invest</a> </p>
+          <p class="text-secondary mt-4">Redeem when the rates are high to top the leaderboard! :: <a href="{{ url_for('redeem') }}">Redeem</a> </p>
+          {% if request.path != url_for('home') or not request %}
+          <table id="allcoins" class="tablesorter table table-hover mt-4">
+            <thead>
+                <tr>
+                    <th>Long</th>
+                    <th>Price</th>
+                    <th>%Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for coin in coins %}
+                    <tr>
+                        <td>{{ coin.long }} ({{ coin.short }})</td>
+                        <td>{{ coin.price | usd }}</td>
+                        <td><span style="color:{{ 'red' if coin.perc < 0 else 'green' }}">{{ coin.perc | percent }}</span></td>
+                    </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+          <p class="text-muted">%Change is of last 24 hours</p>
+      {% endif %}
+      </div>
+</div>

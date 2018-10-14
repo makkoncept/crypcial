@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+        <article class="media content-section">
+            <div>
+            <h2 class="text-center"> Cryptocurrency </h2>
+            <p class="text-secondary">A cryptocurrency is a digital or virtual currency designed to work as a medium of exchange.
+                It uses cryptography to secure and verify transactions as well as to control
+                the creation of new units of a particular cryptocurrency. Essentially, cryptocurrencies
+                are limited entries in a database that no one can change unless specific conditions are
+                fulfilled.
+            </p>
+            </div>
+        </article>
+            <div class="mt-5 mb-5">
+                <h2 class="text-center"> Crypcial </h2>
+                <p class="text-dark"> Crypcial (Cryptocurrency+Social) is a social platform that focuses on this exciting technology.
+                    Users can discuss about new tech, write informative blog posts, view and upvote other's post
+                    give and sought advise, invest dummy virtual currency in popular coins
+                    (like Bitcoin, Ethereum, EOS) and climb up the leaderboard.
+                     Crypcial can thus create a community that is passionate about cryptocurrency, blockchain and related tech.
+                </p>
+                {% if not current_user.is_authenticated %}
+                <p class="mt-3"><a href="{{url_for('register')}}">Register Today</a> </>
+                {% endif %}
+            </div>
+
+         <legend class="border-bottom mb-4 text-center text-success">Live Cryptocurrency Rates</legend>
+        <article class="media content-section">
+        <table id="allcoins" class="tablesorter table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Long (Short)</th>
+                    <th>Market Cap</th>
+                    <th>Price</th>
+                    <th>%Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for coin in coins %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ coin.long }} ({{ coin.short }})</td>
+                        <td>{{ coin.mktcap | usd }}</td>
+                        <td>{{ coin.price | usd }}</td>
+                        <td><span style="color:{{ 'red' if coin.perc < 0 else 'green' }}">{{ coin.perc | percent }}</span></td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </article>
+{% endblock content %}

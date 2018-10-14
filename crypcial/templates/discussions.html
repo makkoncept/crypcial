@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if not current_user.is_authenticated %}
+<p class="text-danger text-center">You must Login to view the comments and user profiles !</p>
+{% else %}
+<p class="text-dark text-center"><u><strong>Start</strong> a new</u> <a href="{{url_for('new_post_discuss')}}">Thread</a></p>
+{% endif %}
+    {% for discussion in discussions %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ discussion.author.image_file }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('account', username=discussion.author.username) }}">{{ discussion.author.username }}</a>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('discussion_post', discussion_id=discussion.id) }}">{{ discussion.title }}</a></h2>
+            <p class="article-content">{{ discussion.content }}</p>
+          </div>
+         <small class="text-muted">Posted on : {{ discussion.date_posted.strftime('%Y-%m-%d') }}</small>
+        </article>
+    {% endfor %}
+{% endblock content %}
